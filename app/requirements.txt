@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+python-multipart
+streamlit
+requests
+sentence-transformers
+rank-bm25
+chromadb
+ollama
+bcrypt
+pymupdf
+numpy

@@ -1,0 +1,33 @@
+services:
+  backend:
+    build: ./app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./processed:/processed
+      - ./PDFs:/PDFs
+      - ./hf_cache:/root/.cache/huggingface
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 600s
+
+  frontend:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./processed:/processed
+    environment:
+      - BACKEND_URL=http://backend:8000
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy

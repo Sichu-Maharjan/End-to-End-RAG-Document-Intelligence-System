@@ -1,0 +1,10 @@
+PDFs/
+data/
+processed/
+.ipynb_checkpoints/
+venv/
+__pycache__/
+.DS_Store
+*.pyc
+*.csv
+*.log
